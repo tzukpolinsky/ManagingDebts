@@ -1,0 +1,37 @@
+<div class="logo">
+ שלום {{user.firstName}} {{user.lastName}}
+</div>
+<div class="sidebar-wrapper">
+  <ul class="nav">
+    <li
+      *ngFor="let menuItem of menuItems"
+      class=" nav-item"
+      [class.active]="menuItem.Text===selectedMenuItem"
+      [class.hasSubMenus]="menuItem.SubMenus"
+      (click)="openSubMenu($event,menuItem)"
+    >
+      <a *ngIf="menuItem.Href"[routerLink]="[menuItem.Href]">
+        <i class="tim-icons  {{ menuItem.icon }}" ></i>
+        <p>{{ menuItem.Text }}</p>
+      </a>
+      <a *ngIf="!menuItem.Href">
+        <i class="tim-icons  {{ menuItem.icon }}" ></i>
+        <p>{{ menuItem.Text }}  
+          <i class="tim-icons icon-minimal-down"></i>
+        </p>
+       
+      </a>
+    
+      <ul *ngIf="menuItem.SubMenus">
+          <li
+          *ngFor="let childMenuItem of menuItem.SubMenus"
+          class=" nav-item"
+        >
+          <a *ngIf="childMenuItem && childMenuItem.Href"  [routerLink]="[childMenuItem.Href]">
+            <i class=""></i>
+            <p>{{ childMenuItem.Text }}</p>
+          </a>
+      </ul>
+    </li>
+  </ul>
+</div>

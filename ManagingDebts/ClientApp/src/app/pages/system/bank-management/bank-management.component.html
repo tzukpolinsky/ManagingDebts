@@ -1,0 +1,32 @@
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <app-msg *ngIf="msg" [msg]="msg"></app-msg>
+          הוספת בנק
+        </div>
+          <div class="card-body one-line-form">
+            <div class="mw-15">
+            <label>מספר חשבון בנק בהנהלת חשבונות</label>
+            <input  class="form-control" type="number" [(ngModel)]="newBank.bankAccountInFinance"/>
+          </div>
+          <div class="mw-15">
+            <button class="btn btn-fill btn-primary"[disabled]="isLoading||(!newBank||
+            (!newBank.BankAccountInFinance&&newBank.BankAccountInFinance===0))" (click)="addBank()">
+            צור בנק
+            </button>
+          </div>
+          </div>
+        
+      </div>
+      </div>
+      <div class="col-md-12">
+      <div class="card-body">
+        <app-table (firstBtnClicked)="deleteBank($event)" [data]="banks" [isLoading]="isLoading"
+        [dataHeaders]="tableHeaders" [tableBtnFirst]="deleteBtn"></app-table>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,116 @@
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+        <p class="loading">מבצע פעולה...</p>
+      </ngx-spinner>
+      <div class="card">
+        <div class="card-header">
+          <app-msg *ngIf="msg" [msg]="msg"></app-msg>
+          הוספת סעיף תקציבי
+        </div>
+        <div class="card-body one-line-form">
+          <div>
+            <label>מספר סעיף תקציבי</label>
+            <input class="form-control" [(ngModel)]="newBudget.id" />
+          </div>
+          <div>
+            <label>תיאור סעיף תקציבי</label>
+            <input class="form-control" [(ngModel)]="newBudget.name" />
+          </div>
+          <div>
+            <button class="btn btn-fill btn-primary" [disabled]="isLoading||(!newBudget||
+            (!newBudget.id&&newBudget.id!==0))" (click)="addBudget()">
+              צור סעיף תקציבי
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          טעינת קובץ להוספה מרובה
+        </div>
+        <div class="card-body one-line-form">
+          <div>
+            <label for="file" class="btn btn-fill button-success">העלאת קובץ</label>
+            <label *ngIf="selectedFile&&selectedFile.name!=''">{{selectedFile.name}}</label>
+            <input name="file" id="file" style="display: none" [disabled]="isLoading" type="file"
+              (change)="onFileChange($event)" class="form-control" [(ngModel)]="selectedFile" />
+          </div>
+          <div>
+            <button [disabled]="isLoading" (click)="getBudgetsFromFile()" class="btn btn-fill btn-primary">טען</button>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="budgetsToSelect || UnusualBudgetsToSelect">
+          <div>
+            <label>סעיפים רגילים</label>
+            <ng-select [items]="budgetsToSelect" bindLabel="name" placeholder="בחר סעיף תקציבי" appendTo="body"
+              multiple="true" [(ngModel)]="selectedBudgets" [searchable]="true" [closeOnSelect]="false">
+            </ng-select>
+          </div>
+          <div>
+            <label>סעיפים בלתי רגילים</label>
+            <ng-select [items]="UnusualBudgetsToSelect" bindLabel="name" placeholder="בחר סעיף תקציבי בלתי רגיל"
+              appendTo="body" multiple="true" [(ngModel)]="UnusualSelectedBudgets" [searchable]="true"
+              [closeOnSelect]="false">
+            </ng-select>
+          </div>
+          <div>
+            <button class="btn btn-fill btn-primary" (click)="addBudgets()">
+              הוסף
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          טעינת קובץ יחסי חוזים סעיפים
+        </div>
+        <div class="card-body one-line-form">
+          <div>
+            <label for="Relationfile" class="btn btn-fill button-success">העלאת קובץ</label>
+            <label *ngIf="selectedRelationFile&&selectedRelationFile.name!=''">{{selectedRelationFile.name}}</label>
+            <input name="Relationfile" id="Relationfile" style="display: none" [disabled]="isLoading" type="file"
+              (change)="onRelationsFileChange($event)" class="form-control" [(ngModel)]="selectedRelationFile" />
+          </div>
+          <div>
+            <button [disabled]="isLoading" (click)="getRelationShipsFromFile()" class="btn btn-fill btn-primary">טען</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="budgetsToDisplay&&budgetsToDisplay.length>0">
+      <div class="card-body">
+        <app-table (firstBtnClicked)="popUpEditWindow($event)" [data]="budgetsToDisplay" [isLoading]="isLoading"
+          [dataHeaders]="tableHeaders" (secondBtnClicked)="deleteBudget($event)" [tableBtnSecond]="deleteBtn"
+          [tableBtnFirst]="editBtn"></app-table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<swal title="עריכת ספק" (confirm)="editBudget()" (cancel)="clearBudget()" [swalFireOnInit]="true"
+  *ngIf="selectedBudget&&selectedBudget.id!==0" [showConfirmButton]="true" [showCancelButton]="true"
+  [swalOptions]="{ confirmButtonText: 'ערוך',cancelButtonText: 'בטל עריכה' }">
+  <div *swalPortal>
+    <div>
+      <div class="d-lg-flex">
+        <label>שם הספק</label>
+        <input [(ngModel)]="selectedBudget.name" class="form-control" />
+      </div>
+    </div>
+    <ng-container *swalPortal="swalTargets.confirmButton">
+      ערוך
+    </ng-container>
+    <ng-container *swalPortal="swalTargets.cancelButton">
+      בטל עריכה
+    </ng-container>
+  </div>
+</swal>

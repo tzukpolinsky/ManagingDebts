@@ -1,0 +1,31 @@
+<div class=" card card-chart">
+  <div class=" card-header">
+    <div class=" row">
+     <div class="  col-sm-12 text-center">
+
+       <h2 class=" card-title"><i class="tim-icons icon-wallet-43 text-success"></i> סעיפים תקציביים </h2>
+     </div>
+      <div class="  col-sm-12 text-right d-inline-flex">
+        <ng-select [items]="budgets" bindLabel="id" placeholder="בחר חוזה" appendTo="body" multiple="true"
+        [(ngModel)]="selectedBudgets" [searchable]="true" [closeOnSelect]="false" (change)="createChart()">
+      </ng-select>
+        <select (change)="createChart()" [(ngModel)]="selectedDisplayType" class="form-control">
+          <option *ngFor="let type of displayTypes" [value]="type.type">
+            {{type.text}}
+          </option>
+        </select>
+        <select (change)="createChart()" [(ngModel)]="selectedColorType" class="form-control">
+          <option *ngFor="let color of colors" [value]="color.type">
+            {{color.text}}
+          </option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+  <div class=" card-body text-center">
+    <div id="budegtChartPlaceHolder" class=" chart-area" [hidden]="!isCreated" >
+
+     </div>
+  </div>
+</div>

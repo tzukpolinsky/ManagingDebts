@@ -1,0 +1,72 @@
+<div class="main-panel" *ngIf="!isAuth">
+  <img id="background-img" [src]="Image">
+  <div class="login-wrapper col-md-3 col-md-push-7">
+    <h1 class="font-weight-bold "> כניסת משתמש</h1>
+    <div class="card">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+        <p class="loading">מבצע פעולה...</p>
+      </ngx-spinner>
+      <div class="card-header">
+        <app-msg [msg]="msg"></app-msg>
+      </div>
+      <div class="card-body">
+        <div>
+
+          <label>שם משתמש<i class="tim-icons icon-single-02"></i></label>
+          <input class="form-control" [(ngModel)]="user.id">
+          <label>סיסמא<i class="tim-icons icon-lock-circle"></i></label>
+          <input class="form-control" type="password" [(ngModel)]="user.password">
+          <span class="d-flex justify-content-center">
+          <button class="btn rounded-lg btn-fill btn-success" [disabled]="isLoading" (click)="login()">כניסה</button>
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper" *ngIf="isAuth">
+  <div class="sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="main-panel">
+    <img id="background-img" [src]="Image">
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </div>
+</div>
+<div class=" fixed-plugin">
+  <div class=" show-dropdown" ngbDropdown>
+    <a data-toggle="dropdown" ngbDropdownToggle>
+      <i class=" fa fa-cog fa-2x"> </i>
+    </a>
+    <ul ngbDropdownMenu>
+      <li class=" header-title" *ngIf="isAuth">רקע תפריט</li>
+      <li class=" adjustments-line" *ngIf="isAuth">
+        <a class=" switch-trigger background-color" href="javascript:void(0)">
+          <div class=" badge-colors text-center">
+            <span class=" badge filter badge-danger" [ngClass]="{'active':sidebarColor==='red'}"
+              (click)="changeSidebarColor('red')">
+            </span>
+            <span class=" badge filter badge-primary" [ngClass]="{'active':sidebarColor==='primary'}"
+              (click)="changeSidebarColor('primary')">
+            </span>
+            <span class=" badge filter badge-info" [ngClass]="{'active':sidebarColor==='blue'}"
+              (click)="changeSidebarColor('blue')"> </span>
+            <span class=" badge filter badge-success" [ngClass]="{'active':sidebarColor==='green'}"
+              (click)="changeSidebarColor('green')">
+            </span>
+          </div>
+          <div class=" clearfix"></div>
+        </a>
+      </li>
+      <li class=" adjustments-line text-center color-change">
+        <span class=" color-label"> LIGHT MODE </span>
+        <span class=" badge light-badge mr-2" (click)="changeDashboardColor('white-content')"> </span>
+        <span class=" badge dark-badge ml-2" (click)="changeDashboardColor('black-content')"> </span>
+        <span class=" color-label"> DARK MODE </span>
+      </li>
+    </ul>
+  </div>
+</div>

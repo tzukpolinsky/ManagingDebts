@@ -1,0 +1,26 @@
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class=" card">
+        <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+          <p class="loading">טוען קובץ...</p>
+        </ngx-spinner>
+        <div class="card-header">
+          העלאת קבצים
+          <app-msg [msg]="msg"></app-msg>
+        </div>
+        <div class=" card-body">
+            <label for="file" class="btn btn-fill button-success btn-sm-margin">העלאת קובץ</label>
+            <label *ngIf="file&&file.name!=''">{{file.name}}</label>
+            <!-- <mat-spinner-button (btnClick)="uploadFile()" [options]="btnOpts"></mat-spinner-button> -->
+            <button [disabled]="isLoading" (click)="uploadFile()" class="btn btn-fill btn-primary btn-sm-margin">טען</button>
+            <input [disabled]="isLoading" (change)="onFileChange($event)" type="file" name="file" id="file" style="display: none" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <span *ngIf="summaries && summaries.length>0">
+  <app-table (firstBtnClicked)="deleteRow($event)" [isLoading]="isLoading"
+  [dataHeaders]="dataHeaders" [data]="summaries" [tableBtnFirst]="deleteBtn"></app-table>
+</span>
+</div>

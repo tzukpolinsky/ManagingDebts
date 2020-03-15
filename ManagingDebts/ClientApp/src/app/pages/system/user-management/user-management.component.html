@@ -1,0 +1,154 @@
+
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+        <p class="loading">מבצע פעולה...</p>
+      </ngx-spinner>
+      <div class="card">
+        <div class="card-header">
+          <app-msg *ngIf="msg" [msg]="msg"></app-msg>
+            הוספת משתמש
+        </div>
+        <div class="card-body ">
+          <div class="one-line-form">
+            <div>
+              <label>מזהה משתמש</label>
+              <input class="form-control"  [(ngModel)]="newUser.id" />
+            </div>
+            <div *ngIf="customers">
+              <label>רשות המשתמש</label>
+              <select class="form-control" [(ngModel)]="newUser.customerId">
+                <option *ngFor="let customer of customers" [value]="customer.id">
+                  {{customer.name}} - {{customer.id}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+          <div class="one-line-form">
+            <div>
+              <label>שם פרטי</label>
+              <input class="form-control" [(ngModel)]="newUser.firstName" />
+            </div>
+            <div>
+              <label>שם משפחה</label>
+              <input class="form-control" [(ngModel)]="newUser.lastName" />
+            </div>
+          </div>
+          <div class="one-line-form">
+            <div>
+              <label>אימייל</label>
+              <input class="form-control" [(ngModel)]="newUser.email" />
+            </div>
+            <div>
+              <label>סיסמא</label>
+              <input class="form-control" type="password" [(ngModel)]="newUser.password" />
+            </div>
+          </div>
+
+          <div class="one-line-form">
+          <div>
+            <button class="btn btn-fill btn-primary" [disabled]="isLoading||(!newUser &&
+            (newUser.id ==='' && newUser.password ))" (click)="createUser()">
+              צור משתמש
+            </button>
+          </div>
+        </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+  <div class="col-md-12" *ngIf="users&&users.length>0">
+    <div class="card-body">
+      <app-table (firstBtnClicked)="popUpEditWindow($event)" (secondBtnClicked)="popUpChangeWindow($event)" [data]="users" [isLoading]="isLoading"
+        [dataHeaders]="tableHeaders" [tableBtnFirst]="editBtn" [tableBtnSecond]="changeBtn"></app-table>
+    </div>
+  </div>
+</div>
+<swal #updateUserPopUp title="עריכת משתמש" (confirm)="editUser()" (cancel)="clearEditUser()" [showConfirmButton]="true"
+[showCancelButton]="true" [swalOptions]="{ confirmButtonText: 'ערוך',cancelButtonText: 'בטל עריכה' }"
+  *ngIf="userForUpdate && userForUpdate.id!==''">
+  <div *swalPortal>
+    <div class="card">
+      <div class="card-header">
+          עריכת משתמש
+      </div>
+      <div class="card-body ">
+        <div class="one-line-form">
+          <div >
+            <label>מזהה משתמש</label>
+            <input class="form-control"  [(ngModel)]="userForUpdate.id" />
+          </div>
+          <div *ngIf="customers">
+            <label>רשות המשתמש</label>
+            <select class="form-control" [(ngModel)]="userForUpdate.customerId">
+              <option *ngFor="let customer of customers" [value]="customer.id">
+                {{customer.name}} - {{customer.id}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+        <div class="one-line-form">
+          <div>
+            <label>שם פרטי</label>
+            <input class="form-control" [(ngModel)]="userForUpdate.firstName" />
+          </div>
+          <div>
+            <label>שם משפחה</label>
+            <input class="form-control" [(ngModel)]="userForUpdate.lastName" />
+          </div>
+        </div>
+        <div class="one-line-form">
+          <div>
+            <label>אימייל</label>
+            <input class="form-control" [(ngModel)]="userForUpdate.email" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <ng-container *swalPortal="swalTargets.confirmButton">
+      ערוך
+    </ng-container>
+    <ng-container *swalPortal="swalTargets.cancelButton">
+      בטל עריכה
+    </ng-container>
+  </div>
+</swal>
+<swal #changePasswordPopUp title="שינוי סיסמא" (confirm)="changePassword()" (cancel)="clearChangeUser()" [showConfirmButton]="true"
+[showCancelButton]="true" [swalOptions]="{ confirmButtonText: 'שנה',cancelButtonText: 'בטל שינוי' }"
+  *ngIf="userForChange && userForChange.id!==''">
+  <div *swalPortal>
+    <div class="card">
+      <div class="card-header">
+        שינוי סיסמא
+      </div>
+      <div class="card-body ">
+        <div class="one-line-form">
+          <div >
+            <label>סיסמת המשתמש המחובר</label>
+            <input class="form-control" type="password" [(ngModel)]="currentUser.password" />
+          </div>
+        </div>
+        <div class="one-line-form">
+          <div>
+            <label>הסיסמא להחלפה</label>
+            <input class="form-control"type="password"  [(ngModel)]="userForUpdate.password" />
+          </div>
+      </div>
+    </div>
+    <ng-container *swalPortal="swalTargets.confirmButton">
+      שנה
+    </ng-container>
+    <ng-container *swalPortal="swalTargets.cancelButton">
+      בטל שינוי
+    </ng-container>
+  </div>
+  </div>
+</swal>

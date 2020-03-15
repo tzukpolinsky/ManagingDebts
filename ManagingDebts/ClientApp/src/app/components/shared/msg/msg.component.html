@@ -1,0 +1,13 @@
+
+<span *ngIf="msg">
+<div class="width-80 ">
+<ngb-alert [type]="msg.type"(close)="close()"  [dismissible]="msg.dismissible">
+  <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close" (click)="msg = null">
+    <!-- <i class="tim-icons icon-simple-remove"></i> -->
+  </button>
+  <span>
+    {{msg.text}}
+  </span>
+</ngb-alert>
+</div>
+</span>

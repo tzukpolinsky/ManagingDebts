@@ -1,0 +1,38 @@
+ <div class=" card card-chart">
+   <div class=" card-header">
+     <div class=" row">
+      <div class="  col-sm-12 text-center">
+
+        <h2 class=" card-title"><i class="tim-icons icon-upload text-danger"></i> העלאות </h2>
+      </div>
+       <div class="  col-sm-12 text-right d-inline-flex">
+         <select (change)="createSummaryChart()" [(ngModel)]="selectedYear" class="form-control">
+           <option *ngFor="let year of years" [value]="year">
+             {{year}}
+           </option>
+         </select>
+         <select (change)="createSummaryChart()" [(ngModel)]="selectedDisplayType" class="form-control">
+           <option *ngFor="let type of displayTypes" [value]="type.type">
+             {{type.text}}
+           </option>
+         </select>
+         <select (change)="createSummaryChart()" [(ngModel)]="selectedColorType" class="form-control">
+           <option *ngFor="let color of colors" [value]="color.type">
+             {{color.text}}
+           </option>
+         </select>
+         <select (change)="createSummaryChart()" [(ngModel)]="selectedAmountOfResults" class="form-control">
+           <option *ngFor="let amount of amountOfResults" [value]="amount">
+             {{amount}}
+           </option>
+         </select>
+       </div>
+
+     </div>
+   </div>
+   <div class=" card-body text-center">
+     <div id="summaryChart" class=" chart-area" [hidden]="!isCreated" >
+
+      </div>
+   </div>
+ </div>

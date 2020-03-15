@@ -1,0 +1,130 @@
+<div class="content">
+  <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    <p class="loading">מבצע פעולה...</p>
+  </ngx-spinner>
+  <div class=" row">
+    <div class=" col-md-6">
+      <div class=" card">
+        <div class=" card-body">
+          <span>
+            <select (change)="assignToSummary()" [(ngModel)]="selectedSummaryRowId" *ngIf="summaries" class="form-control">
+              <option *ngFor="let summary of summaries" [value]="summary.rowId">
+                תאריך ערך - {{summary.dateOfValue | dateString}} - {{summary.totalDebit}}
+              </option>
+            </select>
+            <button class="btn" (click)="searchBySummary()">חפש על פי קובץ</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-msg [msg]="msg"></app-msg>
+  <span *ngIf="tableHeaders&&data">
+
+    <div class=" row">
+
+
+      <div class=" col-md-12"  >
+        <div class=" card" >
+
+          <div class="card-header" *ngIf="displayData&&displayData.length>0">
+            <div><b>סה"כ זכות - {{sumCredit.toFixed(2)}}</b></div>
+            <div><b>סה"כ חובה - {{sumDebit.toFixed(2)}}</b></div>
+            <div><b>הפרש - {{(getTotal()).toFixed(2)}}</b></div>
+            <ng-select [items]="tableHeaders" bindLabel="name" placeholder="Select item" appendTo="body" multiple="true"
+              [(ngModel)]="selected" [searchable]="true" [closeOnSelect]="false">
+            </ng-select>
+          </div>
+          <div class=" card-body" >
+            <div class="table-responsive">
+              <app-msg [msg]="searchMsg"></app-msg>
+              <table class="table tablesorter" *ngIf="displayData&&displayData.length>0  else noDataTemplate">
+                <thead>
+                  <tr *ngIf="searchValues">
+                    <th (click)="displayNotMatchOnly=!displayNotMatchOnly">{{displayNotMatchOnly? 'הצג הכל':'הצג לא מותאמים'}}</th>
+                    <th *ngFor="let header of selected">
+                      <input class="form-control" [(ngModel)]="searchValues[header.id]" (blur)="search()"(keyup.enter)="search()"
+                        type="typeof searchValues[header.id]!=='number'?'text':'number'"
+                        placeholder="חיפוש לפי {{header.name}}" />
+                    </th>
+                    <th (click)="clearSearch()">נקה חיפוש</th>
+                  </tr>
+                  <tr>
+                    <th><label> סמן הכל</label>
+                      <input class="form-check" type="checkbox" (click)="checkAll($event)" /></th>
+                    <th class="clickable" *ngFor="let header of selected" (click)="sortBy(header.id,header.isAsc)">
+                      {{header.name}}
+                    </th>
+                    <th> פירוט</th>
+                  </tr>
+
+                </thead>
+                <tbody >
+                  <span class="table-row"  *ngFor="let row of displayData| paginate: { itemsPerPage: 10, currentPage: p }">
+                    <tr *ngIf="!displayNotMatchOnly||!row.summary.isMatched" >
+                      <td [class.clickable] ="row.summary.isNewContract">
+                        <span class="clickable" (click)="popUpContractAdd(row)" *ngIf="row.summary.isNewContract" title="יש להוסיף חוזה לפני שניתן להתאימו">
+                        <input class="form-check" type="checkbox" [checked]="row.summary.isMatched"
+                          [(ngModel)]="row.summary.isMatched" [disabled] = "true" />
+                          חוזה חדש
+                        </span>
+                        <span *ngIf="!row.summary.isNewContract">
+                          <input class="form-check" type="checkbox" [checked]="row.summary.isMatched" (click)= "checkContract(row)"
+                          [(ngModel)]="row.summary.isMatched" />
+                        </span>
+                      </td>
+                      <td  *ngFor="let item of selected">
+                        <span *ngIf="row.summary[item.id].includes===undefined ||!row.summary[item.id].includes('T')">
+                          {{row.summary[item.id]}}
+                        </span>
+                        <span *ngIf="row.summary[item.id].includes!==undefined&&row.summary[item.id].includes('T')">
+                          {{row.summary[item.id] | dateString}}
+                        </span>
+                      </td>
+                      <td (click)="toggleRowData(row,$event)" class="tim-icons icon-minimal-down clickable"></td>
+                    </tr>
+                    <tr class="row-data-matching-banks" *ngFor="let rowData of row.data" [class.hide]="!row.showData"
+                      [class.show]="row.showData">
+                      <td>
+                        <input type="checkbox" [checked]="rowData.isMatched" [(ngModel)]="rowData.isMatched" />
+                      </td>
+                      <td *ngFor="let item of selected">
+                        <span *ngIf="rowData[item.id].includes===undefined ||!rowData[item.id].includes('T')">
+                          {{rowData[item.id]}}
+                        </span>
+                        <span *ngIf="rowData[item.id].includes!==undefined&&rowData[item.id].includes('T')">
+                          {{rowData[item.id] | dateString}}
+                        </span>
+                      </td>
+                      <td></td>
+                    </tr>
+                  </span>
+
+                </tbody>
+              </table>
+              <span *ngIf="displayData&&displayData.length>0">
+              <span >
+                <pagination-controls previousLabel="הקודם" nextLabel="הבא" (pageChange)="p = $event">
+                </pagination-controls>
+              </span>
+              <button [disabled]="isLoading" (click)="match()" class="btn btn-fill btn-danger">
+                אישור נתונים
+              </button>
+            </span>
+              <ng-template #noDataTemplate>
+                <h2>לא נמצא מידע</h2>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </span>
+</div>
+<swal #contractAddtion title="יצירת חוזה"  [showConfirmButton]="false"
+   >
+  <div *swalPortal>
+    <app-contract-managment (addContractEvent)="removeNewContractAttr($event)" [isPopUp]="false" [newContract]="newContract">
+    </app-contract-managment>
+  </div>
+</swal>

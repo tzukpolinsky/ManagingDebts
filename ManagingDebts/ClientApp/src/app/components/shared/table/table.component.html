@@ -1,0 +1,80 @@
+<span *ngIf="data&&dataHeaders">
+  <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    <p class="loading">מבצע פעולה...</p>
+  </ngx-spinner>
+  <ng-select [items]="dataHeaders"
+             bindLabel="name"
+             placeholder="Select item"
+             appendTo="body"
+             multiple="true"
+             [(ngModel)]="selected"
+             [searchable]="true"
+              [closeOnSelect]="false">
+  </ng-select>
+<div class=" row">
+<div class=" col-md-12">
+  <div class=" card">
+    <div class=" card-body">
+      <div class=" table-responsive">
+        <app-msg [msg]="msg"></app-msg>
+        <table class=" table tablesorter">
+          <thead>
+            <tr>
+              <th *ngFor="let header of selected">
+                <input class="form-control" [(ngModel)]="searchValues[header.id]" (blur)="search()"(keyup.enter)="search()"
+                  placeholder="חיפוש לפי {{header.name}}" />
+              </th>
+              <th (click)="clearSearch()">נקה חיפוש</th>
+            </tr>
+            <tr>
+              <th  *ngFor="let header of selected" (click)="sortBy(header.id,header.isAsc)">
+                {{header.name}}
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody *ngIf="displayData&&displayData.length>0  else noDataTemplate" >
+            <span class="table-row" *ngFor="let row of displayData| paginate: { itemsPerPage: 10, currentPage: p }">
+              <tr >
+                <td  *ngFor="let item of selected">
+
+                <ng-container *ngIf="dateCondation(row[item.id]); else boolean">
+                  {{row[item.id] | dateString}}
+                   </ng-container>
+                   <ng-template #boolean >
+                    <ng-container *ngIf="booleanCondation(row[item.id]) else simple">
+                    {{row[item.id] | is}}
+                  </ng-container>
+                  </ng-template>
+                  <ng-template #simple>
+                    {{row[item.id]}}
+                  </ng-template>
+                </td>
+                <td *ngIf="tableBtnFirst">
+                  <button (click)="firstClicked(row)" [disabled] = "tableBtnFirst.condition&&tableBtnFirst.condition(row)" class="btn btn-fill btn-{{tableBtnFirst.type}}">
+                      {{tableBtnFirst.text}}
+                  </button>
+                </td>
+                <td *ngIf="tableBtnSecond">
+                  <button (click)="secondClicked(row)" [disabled] = "tableBtnSecond.condition&&tableBtnSecond.condition(row)" class="btn btn-fill btn-{{tableBtnSecond.type}}">
+                     {{tableBtnSecond.text}}
+                  </button>
+                </td>
+              </tr>
+            </span >
+          </tbody>
+        </table>
+        <span>
+          <pagination-controls previousLabel="הקודם" nextLabel="הבא" (pageChange)="p = $event">
+          </pagination-controls>
+        </span>
+        <ng-template #noDataTemplate>
+          <h2 class="text-center">לא נמצא מידע</h2>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</span>

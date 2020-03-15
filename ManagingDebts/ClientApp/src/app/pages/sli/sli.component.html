@@ -1,0 +1,82 @@
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <app-msg *ngIf="msg" [msg]="msg"></app-msg>
+          יצירת פקודת יומן מספר - {{supplier.pkudatYomanNumber}}
+        </div>
+        <div class="card-body">
+          <div class="mw-15">
+            <label>קובץ</label>
+            <select [(ngModel)]="selectedSummaryRowId" (change)="selectSummary()" class="form-control">
+              <option *ngFor="let summary of summaries" [value]="summary.rowId">
+                תאריך ערך - {{summary.dateOfValue | dateString}} - {{summary.totalDebit}}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="mw-15">
+            <button class="btn btn-fill btn-primary" [disabled]="isLoading" (click)="displaySli()">
+              הצג לפני שליחה
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-12 card" *ngIf="data && data.length>0">
+        <div><b> סכום זכות - {{sumCredit.toFixed(2)}} </b></div>
+        <div><b> סכום חובה - {{sumDebit.toFixed(2)}} </b> </div>
+        <div><b> הפרש - {{(getTotal()).toFixed(2)}}</b></div>
+      <div class="one-line-form">
+      <div >
+        <label>שנה</label>
+        <select [(ngModel)]="selectedYear" class="form-control">
+          <option *ngFor="let year of years" [value]="year">
+            {{year}}
+          </option>
+        </select>
+      </div>
+      <div >
+        <label>חודש</label>
+        <select [(ngModel)]="selectedMonth" class="form-control">
+          <option *ngFor="let month of months" [value]="month">
+            {{month}}
+          </option>
+        </select>
+      </div>
+      <div>
+        <button class="btn btn-fill button-success" [disabled]="getTotal()" (click)="getFinanceUser()">
+          {{getTotal() ? 'לא ניתן לשלוח פקודה לא מאוזנת' : 'שלח פקודה מספר - '+supplier.pkudatYomanNumber}}
+        </button>
+      </div>
+    </div>
+
+      </div>
+      <div class="col-12">
+        <app-table [data]="data" [isLoading]="isLoading" [dataHeaders]="dataHeader"></app-table>
+      </div>
+      </div>
+    </div>
+<swal title="משתמש פיננסים" (confirm)="createSli()" (cancel)="financeUser = null" [swalFireOnInit]="true"
+  *ngIf="financeUser&&!isLoading">
+  <div *swalPortal>
+    <div>
+      <label>שם משתמש</label>
+      <input [(ngModel)]="financeUser.id" class="form-control">
+    </div>
+    <div>
+      <label>סיסמא</label>
+      <input [(ngModel)]="financeUser.password" type="password"
+      class="form-control">
+    </div>
+    <ng-container *swalPortal="swalTargets.confirmButton">
+      שלח
+    </ng-container>
+    <ng-container *swalPortal="swalTargets.cancelButton">
+      בטל יצירה
+    </ng-container>
+  </div>
+</swal>

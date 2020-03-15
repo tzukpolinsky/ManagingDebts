@@ -1,0 +1,3 @@
+update db command
+Scaffold-DbContext "value from defualtConnections in appsettinges.json" Microsoft.EntityFrameworkCore.SqlServer -OutputDir data model directory -F
+

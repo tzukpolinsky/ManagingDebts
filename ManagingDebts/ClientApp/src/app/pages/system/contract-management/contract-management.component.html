@@ -1,0 +1,93 @@
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+        <p class="loading">מבצע פעולה...</p>
+      </ngx-spinner>
+      <div class="card">
+        <div class="card-header">
+          <app-msg *ngIf="msg" [msg]="msg"></app-msg>
+          <h2 class=" card-title">
+          {{newContract && newContract.id ===0 ? 'הוספת חוזה': ''}}
+        </h2>
+        </div>
+        <div class="card-body ">
+          <div class="one-line-form">
+            <div>
+              <label>מספר חוזה</label>
+              <input class="form-control" [(ngModel)]="newContract.id" />
+            </div>
+            <div *ngIf="supplier.withBanks">
+              <label>בנק המקושר לחוזה</label>
+              <select class="form-control" [(ngModel)]="newContract.bankAccountInFinance">
+                <option *ngFor="let bank of banks" [value]="bank.bankAccountInFinance">
+                  {{bank.bankAccountInFinance}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+          <div class="one-line-form">
+
+
+            <div>
+              <label>תיאור חוזה</label>
+              <input class="form-control" [(ngModel)]="newContract.description" />
+            </div>
+            <div>
+              <label>כתובת חוזה</label>
+              <input class="form-control" [(ngModel)]="newContract.address" />
+            </div>
+          </div>
+          <div class="one-line-form">
+            <div>
+              <label>ניהול קשרי חוזה -סעיף</label>
+              <ng-select *ngIf="isPopUp" [items]="budgets" bindLabel="id" placeholder="בחר סעיף" appendTo="body" multiple="true"
+                 [searchable]="true"  [closeOnSelect]="false" [(ngModel)]="selectedBudgets"
+                (add)="addRelationship($event)" (remove)="removeRelationship($event)">
+              </ng-select>
+              <ng-select *ngIf="!isPopUp" [items]="budgets" bindLabel="id" placeholder="בחר סעיף" appendTo="body" multiple="true"
+                 [searchable]="true"  [closeOnSelect]="false"
+                (add)="addRelationship($event)" (remove)="removeRelationship($event)">
+              </ng-select>
+            </div>
+          </div>
+          <div class="one-line-form">
+            <span *ngIf="newContract.budgetContract &&newContract.budgetContract.length>0">
+              <div *ngFor="let budgetContract of newContract.budgetContract">
+                <label>ניהול קשר {{newContract.id}} - {{budgetContract.budgetId}}</label>
+                <input class="form-control" (keyup)="checkRelationship()" placeholder="אחוז הסעיף בחוזה" [(ngModel)]="budgetContract.precent">
+              </div>
+            </span>
+          </div>
+          <div class="one-line-form">
+            <div>
+              <button *ngIf="!isPopUp" class="btn btn-fill btn-primary" [disabled]="isLoading||(!newContract||
+            (!newContract.id||newContract.id===0)||(!newContract.budgetContract
+            ||newContract.budgetContract.length=== 0)||(supplier.withBanks && newContract.bankAccountInFinance === 0))" (click)="addContract()">
+                צור חוזה
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+  <div class="col-md-12" *ngIf="contractsToDisplay&&contractsToDisplay.length>0&&!isPopUp">
+    <div class="card-body">
+      <app-table (firstBtnClicked)="popUpEditWindow($event)" [data]="contractsToDisplay" [isLoading]="isLoading"
+        [dataHeaders]="tableHeaders" (secondBtnClicked)="deleteContract($event)" [tableBtnSecond]="deleteBtn" [tableBtnFirst]="editBtn"></app-table>
+    </div>
+  </div>
+</div>
+<swal #contractEditing title="עריכת חוזה" (confirm)="updateContract()" (cancel)="clearContract()" [showConfirmButton]="true"
+[showCancelButton]="true" [swalOptions]="{ confirmButtonText: 'ערוך',cancelButtonText: 'בטל עריכה' }" >
+  <div *swalPortal>
+    <app-contract-managment [isPopUp]="true" [newContract]="editContract" [budgets]="budgets" [banks]="banks">
+    </app-contract-managment>
+  </div>
+</swal>

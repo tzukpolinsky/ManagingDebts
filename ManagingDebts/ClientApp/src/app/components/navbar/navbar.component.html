@@ -1,0 +1,76 @@
+<nav class=" navbar navbar-expand-lg navbar-absolute navbar-transparent">
+  <div class=" container-fluid">
+    <div class=" navbar-wrapper">
+      <div class=" navbar-toggle d-inline">
+        <button class=" navbar-toggler" type="button" (click)="sidebarToggle()">
+          <span class=" navbar-toggler-bar bar1"> </span>
+          <span class=" navbar-toggler-bar bar2"> </span>
+          <span class=" navbar-toggler-bar bar3"> </span>
+        </button>
+      </div>
+
+    </div>
+    <button
+      aria-label="Toggle navigation"
+      class=" navbar-toggler"
+      (click)="collapse()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+      id="navigation"
+      type="button"
+    >
+      <span class=" navbar-toggler-bar navbar-kebab"> </span>
+      <span class=" navbar-toggler-bar navbar-kebab"> </span>
+      <span class=" navbar-toggler-bar navbar-kebab"> </span>
+    </button>
+    <div class=" navbar-collapse" [ngbCollapse]="isCollapsed" id="navigation">
+      <ul class=" navbar-nav">
+          <li class=" nav-item">
+            <button class="btn btn-sm btn-danger btn-simple active log-out-btn" (click)="logOut()">
+              התנתקות
+            </button>
+            </li>
+        <li *ngIf="selectedCustomer&&customers" class="nav-item">
+          <select (change)="customerChanged()"  *ngIf="customers.length>1" class="form-control" [(ngModel)]="selectedCustomer.id" >
+              <option *ngFor="let customer of customers" [value]="customer.id" >
+                {{customer.name}}
+                </option>
+            </select>
+          <label class="head-line" *ngIf="customers.length==1">{{selectedCustomer.name}}</label>
+        </li>
+        <li class=" nav-item" *ngIf="suppliers" >
+            <select (change)="supplierChanged()" class="form-control" [(ngModel)]="selectedSupplier.id" >
+                <option *ngFor="let supplier of suppliers" [hidden]="!supplier.isEnable" [value]="supplier.id">
+                  {{supplier.name}}
+                  </option>
+              </select>
+        </li>
+
+        <li class=" separator d-lg-none"></li>
+      </ul>
+    </div>
+  </div>
+  <!-- <a class="text-no-wrap" href="javascript:void(0)"> {{ getTitle() }} </a> -->
+</nav>
+
+<ng-template #content let-modal>
+  <div class=" modal-header">
+    <input
+      class=" form-control"
+      id="inlineFormInputGroup"
+      placeholder="SEARCH"
+      type="text"
+    />
+
+    <button
+      aria-label="Close"
+      class=" close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <i class=" tim-icons icon-simple-remove"> </i>
+    </button>
+  </div>
+
+</ng-template>

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Entities.BankAccountEntity" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAgAAA=</HashCode>
+      <FileName>BankAccountEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.BezekInfoEntity" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACDIKMQAAAGhAAiAAAIABACgAQAAABQAQwAIAEgAABA=</HashCode>
+      <FileName>BezekInfoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.BudgetContractEntity">
+    <Position X="10.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAEAAAAAAAAAAAABIAAAAAAAAgAAA=</HashCode>
+      <FileName>BudgetContractEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.BudgetEntity" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAABAAAAAAAAAgAAA=</HashCode>
+      <FileName>BudgetEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.ChartEntity" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACCAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ChartEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.ContractEntity">
+    <Position X="8.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEACAAAAAAAgAAAAAQAAAAAAAAAAABACAAAAAAAgAAA=</HashCode>
+      <FileName>ContractEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.CustomerEntity" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAAAAAAAIAAEAAAAAQAAAAAAAAAEAAIAAAAAAA=</HashCode>
+      <FileName>CustomerEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.ElectricityInfoEntity" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAgAEACAAAAIAABIAAABAAABgAQAAIYAAAiRE=</HashCode>
+      <FileName>ElectricityInfoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.Enums" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.FileEntity" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEABAAAAAAAAAgAAA=</HashCode>
+      <FileName>FileEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.GeneralBillingSummaryEntity" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAEiAAAAAAAAAAACAgIAAACAAACABBQAAAAAAAgADA=</HashCode>
+      <FileName>GeneralBillingSummaryEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.PrivateSupplierFileInfoEntity">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAgAEgAACAAAAABACAAAAAABAAAAAIAAAgARE=</HashCode>
+      <FileName>PrivateSupplierFileInfoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.SliViewEntity" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SliViewEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.SupplierEntity" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAQAAAAAAAAAEAAAQAAgAAABAAAAAEAAAACAA=</HashCode>
+      <FileName>SupplierEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entities.UserEntity" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAACAAAAAAEBAAAAAAAAAAABACAAAAAAAAAAg=</HashCode>
+      <FileName>UserEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

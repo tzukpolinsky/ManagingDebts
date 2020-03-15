@@ -1,0 +1,86 @@
+<div class="content">
+  <div class=" row">
+    <div class=" col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <app-msg *ngIf="msg" [msg]="msg"></app-msg>
+          <h2 class=" card-title"> הוספת ספק</h2>
+
+        </div>
+          <div class="card-body one-line-form">
+            <div >
+            <label>מזהה ספק במס הכנסה</label>
+            <input  class="form-control" [(ngModel)]="newSupplier.id"/>
+          </div>
+            <div >
+            <label>מספר ספק בפיננסים</label>
+            <input  class="form-control" [(ngModel)]="newSupplier.supplierNumberInFinance"/>
+          </div>
+          <div  >
+            <label>שם ספק</label>
+            <input [(ngModel)]="newSupplier.name" class="form-control">
+          </div>
+          <div  >
+            <label>מספר פקודה</label>
+            <input class="form-control" [(ngModel)]="newSupplier.pkudatYomanNumber">
+
+          </div>
+          <div  >
+            <input  type="checkbox" [(ngModel)]="newSupplier.withBanks">
+            <label>ניהול בנקים עבור הספק</label>
+          </div>
+          <div>
+            <button class="btn btn-fill btn-primary "[disabled]="isLoading||(!newSupplier||
+            (!newSupplier.id&&newSupplier.id!=='')
+            ||(!newSupplier.name&&newSupplier.name!==''))" (click)="add()">
+            צור ספק
+            </button>
+          </div>
+          </div>
+          <div class="card-body">
+          <p>במידה והספק פרטי הוא יהיה מחוייב לעבוד לפי מבנה הקובץ של התוכנה, במידה וזה לא המקרה יש לדבר עם תומכי התוכנה על מנת לבדוק תהליך של יצירת ספק ראשי חדש</p>
+          <a class="btn btn-info" href="/assets/data/קובץ ספק פרטי ניהול חובות.xlsx" target="_blank">להורדת קובץ ספק כללי</a>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-12">
+      <div class="card-body">
+        <app-table *ngIf="suppliers" (firstBtnClicked)="popUpEditWindow($event)" [data]="suppliers" [isLoading]="isLoading"
+        [dataHeaders]="tableHeaders" [tableBtnFirst]="editBtn"></app-table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<swal title="עריכת ספק"  (confirm)="edit()" (cancel)="clearEditSupplier()"
+ [swalFireOnInit]="true" *ngIf="editSupplier.id!==''" [showConfirmButton]="true"
+ [showCancelButton]="true" [swalOptions]="{ confirmButtonText: 'ערוך',cancelButtonText: 'בטל עריכה' }">
+  <div *swalPortal>
+    <div>
+    <div >
+      <label>שם הספק</label>
+      <input [(ngModel)]="editSupplier.name" class="form-control" />
+    </div>
+    <div  >
+      <label>מספר פקודה</label>
+      <input class="form-control"  [(ngModel)]="editSupplier.pkudatYomanNumber">
+
+    </div>
+    <div >
+      <input [checked]="editSupplier.isEnable" [(ngModel)]="editSupplier.isEnable" type="checkbox" class="" />
+      <label class="form-check-label">ספק פעיל</label>
+    </div>
+    <div  >
+      <input  type="checkbox" [(ngModel)]="editSupplier.withBanks">
+      <label class="form-check-label">ניהול בנקים עבור הספק</label>
+    </div>
+
+  </div>
+    <ng-container *swalPortal="swalTargets.confirmButton">
+     ערוך
+    </ng-container>
+    <ng-container *swalPortal="swalTargets.cancelButton">
+     בטל עריכה
+    </ng-container>
+  </div>
+</swal>
